@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Crop Configuration</title>
+</head>
+<body>
+    <h1>Update Crop Configuration</h1>
+    <form id="configForm">
+        <label for="bushel_weight">Bushel Weight:</label>
+        <input type="number" id="bushel_weight" name="bushel_weight" required><br><br>
+
+        <label for="header_size">Header Size:</label>
+        <input type="number" id="header_size" name="header_size" required><br><br>
+
+        <button type="submit">Update Configuration</button>
+    </form>
+
+    <p id="status"></p>
+
+    <script>
+        const form = document.getElementById('configForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const bushelWeight = document.getElementById('bushel_weight').value;
+            const headerSize = document.getElementById('header_size').value;
+
+            try {
+                const response = await fetch('https://your-backend-url/update-config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        bushel_weight: bushelWeight,
+                        header_size: headerSize,
+                    }),
+                });
+
+                const result = await response.json();
+                document.getElementById('status').textContent = result.message;
+            } catch (error) {
+                document.getElementById('status').textContent = "Error updating configuration.";
+            }
+        });
+    </script>
+</body>
+</html>
